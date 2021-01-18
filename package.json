@@ -1,0 +1,25 @@
+{
+  "name": "todojs",
+  "version": "1.0.0",
+  "description": "Simple ToDo 'WebApplication'",
+  "main": "js/main.js",
+  "scripts": {
+    "lint": "eslint .",
+    "dev": "webpack --mode development",
+    "prod": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikolaichub/todoJS.git"
+  },
+  "author": "Nikolai Chub",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nikolaichub/todoJS/issues"
+  },
+  "homepage": "https://github.com/nikolaichub/todoJS#readme",
+  "devDependencies": {
+    "webpack": "^5.15.0",
+    "webpack-cli": "^4.3.1"
+  }
+}
