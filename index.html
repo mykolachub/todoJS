@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="./styles/index.css">
+    <title>TodoJS</title>
+</head>
+<body class="body">
+    <div class="wrapper">
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header__darkmode header__item">
+                <button id="dark_mode" class="darkmode__button">
+                    Dark Mode: Off
+                </button>
+            </div>
+            <div class="header__logo header__item">
+                <div class="logo">
+                    <div class="logo__content">
+                        <span class="logo__text">
+                            TodoJS
+                        </span>
+                        <span class="logo__beta">
+                            Beta
+                        </span>
+                    </div>
+                    <div class="logo__subheading">
+                        <span>Simple JavaScript ToDo</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header__count header__item">
+                <div class="count">
+                    <span id="count" class="count__item">Count: 0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN -->
+        <div class="list">
+            <div id="notodo" class="notodos">
+
+            </div>
+            <!-- <div id="todo" class="todos">
+                <div class="todo__item"></div>
+                <div class="todo__item"></div>
+            </div> -->
+            <!-- <div id="new" class="new">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                    <path d="M12 4C11.4477 4 11 4.44772 11 5V11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H11V19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19V13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11H13V5C13 4.44772 12.5523 4 12 4Z" fill="currentColor" />
+                </svg>
+            </div> -->
+        </div>
+        <div id="sheet" class="sheet">
+            <div class="sheet__wrapper">
+                <div class="sheet__body">
+                    <div class="sheet__bar">
+                        <div class="bar__info">
+                            <span id="sheet-bar-id" class="bar__id sheet__info_item">
+                                01
+                            </span>
+                            <span id="sheet-bar-name" class="bar__name sheet__info_item">
+                                Namespace
+                            </span>
+                        </div>
+                        <div class="bar__nav">
+                            <span id="sheet-bar-apply" class="bar__apply bar__nav_item">
+                                Применить
+                            </span>
+                            <span id="sheet-bar-close" class="bar__close bar__nav_item">
+                                Закрыть
+                            </span>
+                            <span id="sheet-bar-delete" class="bar__delete bar__nav_item">
+                                Удалить
+                            </span>
+                        </div>
+                    </div>
+                    <div class="sheet__scrolable">
+                        <div class="sheet__header">
+                            <div id="sheet-header-name" class="sheet__name">
+                                <textarea id="sheet-header-name-input" placeholder="Название списка дел.." name="" rows="1"></textarea>
+                            </div>
+                            <div id="sheet-header-disc" class="sheet__disc">
+                                <textarea id="sheet-header-disc-input" placeholder="Описание списка дел.." name="" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="sheet__main">
+                            <div id="sheet-header-new" class="sheet__new">
+                                <button id="sheet__new_btn">
+                                    Добавить дело
+                                </button>
+                            </div>
+                            <ul id="sheet-list" class="sheet__list">
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                                <li class="sheet__list_item">
+                                    <label class="sheet__list_check">
+                                        <input class="sheet__list_input" type="checkbox" name="">
+                                        <span class="sheet__list_box"></span>
+                                    </label>
+                                    <textarea placeholder="задание.." name="" rows="1"></textarea>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/src/autosize.min.js"></script>
+    <script>
+        autosize(document.querySelectorAll('textarea'));
+    </script>
+</body>
+</html>

@@ -1,0 +1,380 @@
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+::selection {
+    background-color: rgba(41, 41, 38, 1);
+    color: white;
+}
+
+html {
+    /* --section-block-type */
+
+    --document-bg: rgba(255, 255, 255, 1);
+
+    --header-darkmode-text: rgba(0, 0, 0, 1);
+    --header-darkmode-bg: rgba(255, 255, 255, 1);
+    --header-darkmode-bg--hover: rgba(245, 246, 250, 1);
+    --header-logo-text: rgba(0, 0, 0, 1);
+    --header-logo-subtext: rgba(0, 0, 0, 0.6);
+    --header-beta-text: rgba(0, 0, 0, 1);
+    --header-beta-bg: rgba(245, 246, 250, 1);
+
+    --todo-item-bg: rgba(245, 246, 250, 1);
+
+    --new-button-bg: rgba(245, 246, 250, 1);
+
+    --sheet-bg: rgba(0, 0, 0, 0.1);
+    --sheet-body-bg: rgba(255, 255, 255, 1);
+    --sheet-bar-bg: rgba(245, 246, 250, 1);
+    --sheet-bar-name-text: rgba(0, 0, 0, 1);
+    --sheet-bar-id-text: rgba(0, 0, 0, 0.5);
+    --sheet-bar-apply: rgba(48, 209, 88, 1);
+    --sheet-bar-close: rgba(255, 159, 10, 1);
+    --sheet-bar-delete: rgba(255, 69, 58, 1);
+    --sheet-header-number-text: rgba(0, 0, 0, 0.125);
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    font-size: 10px;
+    background-color: var(--document-bg);
+    transition: all 250ms ease;
+}
+
+.wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+/* HEADER */
+
+.header {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 3rem;
+    margin-bottom: 5rem;
+    position: relative;
+}
+
+/* DARK MODE & count */
+
+.header__darkmode,
+.header__count {
+    width: 13rem;
+    height: 6rem;
+}
+
+.darkmode__button,
+.count {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 1rem;
+    transition: all 250ms ease;
+    color: var(--header-darkmode-text);
+}
+
+.darkmode__button:hover {
+    background-color: var(--header-darkmode-bg--hover);
+}
+
+/* LOGO */
+
+.header__logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+}
+
+.logo {
+    height: auto;
+    width: auto;
+    position: relative;
+}
+
+.logo__content {
+    text-align: center;
+}
+
+.logo__text {
+    font-size: 3.7rem;
+    font-weight: 700;
+    color: var(--header-logo-text);
+}
+
+.logo__beta {
+    position: absolute;
+    top: 0%;
+    left: 100%;
+    transform: translate(-50%, -50%);
+    font-size: 1rem;
+    display: block;
+    width: auto;
+    height: auto;
+    padding: .125em .25em;
+    background-color: var(--header-beta-bg);
+    color: var(--header-beta-text);
+    border-radius: 5px;
+}
+
+.logo__subheading {
+    width: 100%;
+    height: auto;
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--header-logo-subtext);
+}
+
+/* list */
+
+.list {
+    width: 100%;
+    /* min-height: 100%; */
+    height: auto;
+    padding: 0 3rem;
+}
+
+.todos {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+}
+
+.todo__item {
+    width: 30rem;
+    height: 30rem;
+    background: var(--todo-item-bg);
+    border-radius: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+/* NEW */
+
+.new {
+    position: absolute;
+    right: 3rem;
+    bottom: 3rem;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--new-button-bg);
+}
+
+/* sheet */
+
+.sheet {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--sheet-bg);
+    z-index: 10;
+    transform: translateY(0%);
+}
+
+.sheet__wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 3rem;
+}
+
+.sheet__body {
+    max-width: 720px;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    background-color: var(--sheet-body-bg);
+    border-radius: 1rem;
+}
+
+.sheet__bar {
+    width: 100%;
+    height: auto;
+    font-size: 1.4rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--sheet-bar-bg);
+    border-radius: 1rem 1rem 0 0;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.sheet__info_item {
+    margin-right: 1rem;
+}
+
+.bar__id {
+    color: var(--sheet-bar-id-text);
+}
+
+.bar__name {
+    color: var(--sheet-bar-name-text);
+}
+
+.bar__nav_item {
+    margin-left: 1rem;
+    cursor: pointer;
+}
+
+.bar__apply {
+    color: var(--sheet-bar-apply);
+}
+
+.bar__close {
+    color: var(--sheet-bar-close);
+}
+
+.bar__delete {
+    color: var(--sheet-bar-delete);
+}
+
+/* sheet__scrolable */
+
+.sheet__scrolable {
+    width: 100%;
+    height: calc(100% - 2.7rem);
+    overflow: auto;
+}
+
+.sheet__header {
+    width: 100%;
+    height: auto;
+    padding: 5rem 2rem;
+    /* border-bottom: 2px dashed rgba(0, 0, 0, 0.125); */
+}
+
+.sheet__name {
+    width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+textarea {
+    border: none;
+    width: 100%;
+    color: rgba(41, 41, 38, 1);
+    resize: none;
+    outline: none;
+    overflow: auto;
+}
+
+.sheet__name textarea::placeholder {
+    color: rgba(205, 204, 204, 1);
+}
+
+.sheet__name textarea {
+    font-size: 3.8rem;
+    font-weight: 700;
+}
+
+.sheet__disc textarea {
+    font-size: 2rem;
+    font-weight: 500;
+    color: #cdcccc;
+    /* text-decoration: none; */
+}
+
+.sheet__main {
+    width: 100%;
+    height: auto;
+    padding: 0rem 2rem;
+}
+
+.sheet__new {
+    width: 100%;
+    height: auto;
+    margin-bottom: 5rem;
+}
+
+#sheet__new_btn {
+    display: flex;
+    margin: 0 auto;
+    background: none;
+    border: 1px solid #cdcccc;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    width: auto;
+    font-size: 1.4rem;
+    gap: 1rem;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.sheet__list {
+    width: 100%;
+    height: auto;
+}
+
+.sheet__list {
+    width: 100%;
+    height: auto;
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.sheet__list_item {
+    width: 100%;
+    height: auto;
+    min-width: 1em;
+    font-size: 2rem;
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.sheet__list_check {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.sheet__list_input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: absolute;
+    outline: none;
+}
+
+.sheet__list_box {
+    position: absolute;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-image: url('/icons/radio-check.svg');
+}
+
+.sheet__list_input:checked + .sheet__list_box {
+    background-image: url('/icons/radio-checked.svg');
+}
