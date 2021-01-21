@@ -9,6 +9,11 @@
     font-family: 'Inter', sans-serif;
 }
 
+::-moz-selection {
+    background-color: rgba(41, 41, 38, 1);
+    color: white;
+}
+
 ::selection {
     background-color: rgba(41, 41, 38, 1);
     color: white;
@@ -19,6 +24,7 @@ html {
 
     --document-bg: rgba(255, 255, 255, 1);
 
+    --header-bg: rgba(255, 255, 255, 0.9); 
     --header-darkmode-text: rgba(0, 0, 0, 1);
     --header-darkmode-bg: rgba(255, 255, 255, 1);
     --header-darkmode-bg--hover: rgba(245, 246, 250, 1);
@@ -31,7 +37,9 @@ html {
 
     --new-button-bg: rgba(245, 246, 250, 1);
 
-    --sheet-bg: rgba(0, 0, 0, 0.1);
+    --list-notodo-new: rgb(239, 239, 239);
+
+    --sheet-bg: rgba(0, 0, 0, 0.25);
     --sheet-body-bg: rgba(255, 255, 255, 1);
     --sheet-bar-bg: rgba(245, 246, 250, 1);
     --sheet-bar-name-text: rgba(0, 0, 0, 1);
@@ -39,7 +47,10 @@ html {
     --sheet-bar-apply: rgba(48, 209, 88, 1);
     --sheet-bar-close: rgba(255, 159, 10, 1);
     --sheet-bar-delete: rgba(255, 69, 58, 1);
-    --sheet-header-number-text: rgba(0, 0, 0, 0.125);
+    --sheet-main-textarea-text: rgba(41, 41, 38, 1);
+    --sheet-main-name-placeholder:  rgba(205, 204, 204, 1);
+    --sheet-main-desc-text:  rgba(205, 204, 204, 1);
+    --sheet-main-button-border: rgb(239, 239, 239);
 }
 
 html,
@@ -54,4 +65,5 @@ body {
 .wrapper {
     width: 100%;
     height: 100%;
+    position: relative;
 }

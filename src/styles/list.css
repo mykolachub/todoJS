@@ -2,10 +2,80 @@
 
 .list {
     width: 100%;
-    /* min-height: 100%; */
-    height: auto;
+    min-height: calc(100% - 120px);
+    height: 100%;
     padding: 0 3rem;
+    padding-top: 12rem;
+    position: relative;
 }
+
+.list__lable {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.list__text {
+    font-size: 2.8rem;
+    font-weight: 700;
+}
+
+/* no todo */
+
+.notodos {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+}
+
+.notodos__content {
+    max-width: 720px;
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.notodos__item {
+    text-align: center;
+}
+
+.notodos__item:nth-of-type(2){
+    margin-bottom: 3rem;
+}
+
+.notodos__lable {
+    font-size: 3.2rem;
+    font-weight: 700;
+}
+
+.notodos__text {
+    font-size: 2.2rem;
+    color:#b8b8b8;
+}
+
+.notodos__button {
+    background: none;
+    font-size: 1.7rem;
+    padding: 1.5rem 2.8rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--list-notodo-new);
+    cursor: pointer;
+    transition: all 250ms ease;
+}
+
+.notodos__button:hover {
+    /* background: rgba(245, 246, 250, 1); */
+    border-color: black;
+}
+
+/* todo */
 
 .todos {
     width: 100%;

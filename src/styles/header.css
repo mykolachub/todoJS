@@ -1,13 +1,20 @@
 /* header */
 
 .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     width: 100%;
     height: auto;
     display: flex;
     justify-content: space-between;
     padding: 3rem;
-    margin-bottom: 5rem;
-    position: relative;
+    background: var(--header-bg);
+    -webkit-backdrop-filter: blur(1px);
+            backdrop-filter: blur(1px);
+    z-index: 10;
+
 }
 
 /* DARK MODE & count */
@@ -29,7 +36,7 @@
     border: none;
     background: none;
     cursor: pointer;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     transition: all 250ms ease;
     color: var(--header-darkmode-text);
 }
