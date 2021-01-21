@@ -1,0 +1,233 @@
+/* sheet */
+
+.sheet {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--sheet-bg);
+    z-index: 10;
+    transform: translateY(100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 250ms 100ms ease;  
+}
+
+.sheet--on {
+    transition: all 250ms 100ms ease;  
+    animation: sheet-on 250ms ease 500ms 1 normal forwards;
+}
+
+@keyframes sheet-on {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0%);
+    }
+}
+
+.sheet--off {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0%);
+    transition: all 250ms 100ms ease;  
+    animation: sheet-off 500ms ease 1000ms 1 normal forwards;
+}
+
+@keyframes sheet-off {
+    50% {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(0%);
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(100%);
+    }
+}
+
+.sheet__wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 3rem;
+}
+
+.sheet__body {
+    max-width: 720px;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    background-color: var(--sheet-body-bg);
+    border-radius: 1rem;
+}
+
+.sheet__bar {
+    width: 100%;
+    height: auto;
+    font-size: 1.4rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--sheet-bar-bg);
+    border-radius: 1rem 1rem 0 0;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.sheet__info_item {
+    margin-right: 1rem;
+}
+
+.bar__id {
+    color: var(--sheet-bar-id-text);
+}
+
+.bar__name {
+    color: var(--sheet-bar-name-text);
+}
+
+.bar__nav_item {
+    margin-left: 1rem;
+    cursor: pointer;
+}
+
+.bar__apply {
+    color: var(--sheet-bar-apply);
+}
+
+.bar__close {
+    color: var(--sheet-bar-close);
+}
+
+.bar__delete {
+    color: var(--sheet-bar-delete);
+}
+
+/* sheet__scrolable */
+
+.sheet__scrolable {
+    width: 100%;
+    height: calc(100% - 2.7rem);
+    overflow: auto;
+}
+
+.sheet__header {
+    width: 100%;
+    height: auto;
+    padding: 5rem 2rem;
+    /* border-bottom: 2px dashed rgba(0, 0, 0, 0.125); */
+}
+
+.sheet__name {
+    width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+textarea {
+    border: none;
+    width: 100%;
+    color: rgba(41, 41, 38, 1);
+    resize: none;
+    outline: none;
+    overflow: auto;
+}
+
+.sheet__name textarea::placeholder {
+    color: rgba(205, 204, 204, 1);
+}
+
+.sheet__name textarea {
+    font-size: 3.8rem;
+    font-weight: 700;
+}
+
+.sheet__disc textarea {
+    font-size: 2rem;
+    font-weight: 500;
+    color: #cdcccc;
+    /* text-decoration: none; */
+}
+
+.sheet__main {
+    width: 100%;
+    height: auto;
+    padding: 0rem 2rem;
+}
+
+.sheet__new {
+    width: 100%;
+    height: auto;
+    margin-bottom: 5rem;
+}
+
+#sheet__new_btn {
+    display: flex;
+    margin: 0 auto;
+    background: none;
+    border: 1px solid #cdcccc;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    width: auto;
+    font-size: 1.4rem;
+    gap: 1rem;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.sheet__list {
+    width: 100%;
+    height: auto;
+}
+
+.sheet__list {
+    width: 100%;
+    height: auto;
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.sheet__list_item {
+    width: 100%;
+    height: auto;
+    min-width: 1em;
+    font-size: 2rem;
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.sheet__list_check {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.sheet__list_input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: absolute;
+    outline: none;
+}
+
+.sheet__list_box {
+    position: absolute;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-image: url('/icons/radio-check.svg');
+}
+
+.sheet__list_input:checked+.sheet__list_box {
+    background-image: url('/icons/radio-checked.svg');
+}

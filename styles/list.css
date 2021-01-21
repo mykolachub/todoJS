@@ -1,0 +1,25 @@
+/* list */
+
+.list {
+    width: 100%;
+    /* min-height: 100%; */
+    height: auto;
+    padding: 0 3rem;
+}
+
+.todos {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+}
+
+.todo__item {
+    width: 30rem;
+    height: 30rem;
+    background: var(--todo-item-bg);
+    border-radius: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+}
