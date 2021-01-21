@@ -225,9 +225,9 @@ textarea {
     position: absolute;
     width: 2.5rem;
     height: 2.5rem;
-    background-image: url('/icons/radio-check.svg');
+    background-image: url('../icons/radio-check.svg');
 }
 
 .sheet__list_input:checked+.sheet__list_box {
-    background-image: url('/icons/radio-checked.svg');
+    background-image: url('../icons/radio-checked.svg');
 }
