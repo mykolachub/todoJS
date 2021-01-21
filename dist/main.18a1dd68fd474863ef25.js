@@ -10,6 +10,6 @@
 /*!*****************!*\
   !*** ./main.js ***!
   \*****************/
-eval("// import '../src/autosize.min.js';\r\n\r\n// document.addEventListener('DOMContentLoaded', () => {\r\n//     autosize(document.querySelectorAll('textarea'));\r\n// })\n\n//# sourceURL=webpack:///./main.js?");
+eval("\n\n//# sourceURL=webpack:///./main.js?");
 /******/ })()
 ;
