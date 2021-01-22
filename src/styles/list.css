@@ -5,7 +5,7 @@
     min-height: calc(100% - 120px);
     height: 100%;
     padding: 0 3rem;
-    padding-top: 12rem;
+    padding-top: 16rem;
     position: relative;
 }
 
@@ -30,6 +30,10 @@
     transform: translate(-50%, -50%);
     width: 100%;
     height: auto;
+}
+
+.notodos--off {
+    display: none;
 }
 
 .notodos__content {
@@ -85,11 +89,89 @@
     gap: 3rem;
 }
 
+.todos-off {
+    display: none;
+}
+
 .todo__item {
     width: 30rem;
     height: 30rem;
-    background: var(--todo-item-bg);
-    border-radius: 1rem;
-    padding: 1rem;
+    border: 1px solid var(--list-todo-bg);
+    border-radius: 0.5rem;
+    padding: 2rem;
     cursor: pointer;
+    transition: all 250ms ease;
+}
+
+.todo__item:hover {
+    border-color: var(--list-todo-bg-hover);
+}
+
+.todo__content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.todo__name {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.todo__desc {
+    font-size: 1.7rem;
+}
+
+.todo__count {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 1.4rem;
+    color: rgba(205, 204, 204, 1);
+}
+
+/* todo new */
+
+.todo__new {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.todo__icon {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    border: 1.1px solid var(--list-todo-create);
+    transition: all 250ms ease;
+    position: relative;
+}
+
+.todo__item:hover .todo__icon {
+    border-color: var(--list-todo-create-hover);
+}
+
+.todo__item:hover .todo__icon_elem {
+    background: var(--list-todo-create-hover);
+}
+
+.todo__icon_elem {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: var(--list-todo-create-plus);
+    transform: translate(-50%, -50%);
+    border-radius: 0.5rem;
+    transition: all 250ms ease;
+}
+
+.todo__icon_vert {
+    width: 0.1rem;
+    height: calc(100% - 1rem);
+}
+
+.todo__icon_hor {
+    width: calc(100% - 1rem);
+    height: 0.1rem;
 }

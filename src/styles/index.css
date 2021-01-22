@@ -11,18 +11,3 @@
 
 /* LIST OF TODO */
 @import url("./list.css");
-
-/* NEW */
-
-.new {
-    position: absolute;
-    right: 3rem;
-    bottom: 3rem;
-    width: 5rem;
-    height: 5rem;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--new-button-bg);
-}

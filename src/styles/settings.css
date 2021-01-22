@@ -33,11 +33,15 @@ html {
     --header-beta-text: rgba(0, 0, 0, 1);
     --header-beta-bg: rgba(245, 246, 250, 1);
 
-    --todo-item-bg: rgba(245, 246, 250, 1);
-
     --new-button-bg: rgba(245, 246, 250, 1);
 
     --list-notodo-new: rgb(239, 239, 239);
+
+    --list-todo-bg: rgb(239, 239, 239);
+    --list-todo-bg-hover: rgba(0, 0, 0, 1);
+    --list-todo-create: rgb(239, 239, 239);
+    --list-todo-create-hover: rgba(0, 0, 0, 1);
+    --list-todo-create-plus: rgb(239, 239, 239);
 
     --sheet-bg: rgba(0, 0, 0, 0.25);
     --sheet-body-bg: rgba(255, 255, 255, 1);
