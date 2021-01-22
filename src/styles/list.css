@@ -30,10 +30,11 @@
     transform: translate(-50%, -50%);
     width: 100%;
     height: auto;
+    display: none;
 }
 
-.notodos--off {
-    display: none;
+.notodos--on {
+    display: block;
 }
 
 .notodos__content {
@@ -84,13 +85,13 @@
 .todos {
     width: 100%;
     height: auto;
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     gap: 3rem;
 }
 
-.todos-off {
-    display: none;
+.todos--on {
+    display: flex;
 }
 
 .todo__item {

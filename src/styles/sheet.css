@@ -17,7 +17,7 @@
 }
 
 .sheet--on {
-    animation: sheet-on 250ms ease 500ms 1 normal forwards;
+    animation: sheet-on 250ms ease 0ms 1 normal forwards;
 }
 
 @keyframes sheet-on {
