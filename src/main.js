@@ -163,6 +163,7 @@ app.renderList();
 // создают новую запись если еще их нет
 _notodoCreate.addEventListener('click', () => {
     _sheet.classList.add('sheet--on');
+    _sheet.classList.remove('sheet--off');
     app.clearForms();
     app.autosizeForms();
 })
@@ -188,6 +189,7 @@ _sheetApply.addEventListener('click', () => {
         app.updateData();
         app.renderList();
         _sheet.classList.remove('sheet--on');
+        _sheet.classList.add('sheet--off');
     } else {
         alert('Запись содержит пустые поля и/или не имеет заданий!');
     }
@@ -198,12 +200,14 @@ _todoCreate.addEventListener('click', () => {
     app.clearForms();
     app.autosizeForms();
     _sheet.classList.add('sheet--on');
+    _sheet.classList.remove('sheet--off');
 });
 
 // закрывает форму без изменений в базе при нажатии на кнопку "закрыть"
 _sheetClose.addEventListener('click', () => {
     app.clearForms();
     _sheet.classList.remove('sheet--on');
+    _sheet.classList.add('sheet--off');
 });
 
 // закрывает форму без изменений в базе при нажатии вне
@@ -212,5 +216,6 @@ _sheet.addEventListener('click', (e) => {
     if (isOut) {
         app.clearForms();
         _sheet.classList.remove('sheet--on');
+        _sheet.classList.add('sheet--off');
     }
 })

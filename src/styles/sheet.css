@@ -35,7 +35,7 @@
     opacity: 1;
     transform: translateY(0%);
     visibility: visible;
-    animation: sheet-off 500ms ease 1000ms 1 normal forwards;
+    animation: sheet-off 500ms ease 0ms 1 normal forwards;
 }
 
 @keyframes sheet-off {
