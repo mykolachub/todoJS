@@ -7,6 +7,7 @@ const _sheet = document.getElementById('sheet'); // off
 const _sheetName = document.getElementById('sheet-header-name-input'); // off
 const _sheetNewTask = document.getElementById('sheet-header-new');
 const _sheetApply = document.getElementById('sheet-bar-apply');
+const _sheetClose = document.getElementById('sheet-bar-close');
 
 class ToDo {
     constructor() {
@@ -198,3 +199,18 @@ _todoCreate.addEventListener('click', () => {
     app.autosizeForms();
     _sheet.classList.add('sheet--on');
 });
+
+// закрывает форму без изменений в базе при нажатии на кнопку "закрыть"
+_sheetClose.addEventListener('click', () => {
+    app.clearForms();
+    _sheet.classList.remove('sheet--on');
+});
+
+// закрывает форму без изменений в базе при нажатии вне
+_sheet.addEventListener('click', (e) => {
+    const isOut = e.target.className === "sheet__wrapper";
+    if (isOut) {
+        app.clearForms();
+        _sheet.classList.remove('sheet--on');
+    }
+})
