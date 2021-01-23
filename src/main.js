@@ -38,16 +38,16 @@ class ToDo {
                 const list = _todo;
                 const item = document.createElement('div');
                 item.classList.add('todo__item');
-                item.setAttribute('id', hash);
-                item.innerHTML = `<div class="todo__content">
-                                    <div class="todo__name">
-                                        <span>${task.name}</span>
+                item.setAttribute('data-id', hash);
+                item.innerHTML = `<div data-id="${hash}" class="todo__content">
+                                    <div data-id="${hash}"class="todo__name">
+                                        <span data-id="${hash}">${task.name}</span>
                                     </div>
-                                    <div class="todo__desc">
-                                        <span>${task.description}</span>
+                                    <div data-id="${hash}"class="todo__desc">
+                                        <span data-id="${hash}">${task.description}</span>
                                     </div>
-                                    <div class="todo__count">
-                                        <span>${task.amount}</span>
+                                    <div data-id="${hash}"class="todo__count">
+                                        <span data-id="${hash}">${task.amount}</span>
                                     </div>
                                 </div>`;
 
@@ -93,12 +93,32 @@ class ToDo {
         localStorage.setItem('todos', JSON.stringify(this.database));
     }
 
-    createTask() {
-        const template = `<label class="sheet__list_check">
+    createTask(task, completed) {
+        let template;
+
+        if (task) {
+            // если переданы аргументы в функцию, "задания" создаются по определенному шаблону
+            if (completed) {
+                template = `<label class="sheet__list_check">
+                                <input class="sheet__list_input" checked type="checkbox">
+                                <span class="sheet__list_box"></span>
+                            </label>
+                            <textarea placeholder="задание.." name="" rows="1">${task}</textarea>`;    
+            } else {
+                template = `<label class="sheet__list_check">
+                                <input class="sheet__list_input" type="checkbox">
+                                <span class="sheet__list_box"></span>
+                            </label>
+                            <textarea placeholder="задание.." name="" rows="1">${task}</textarea>`;    
+            }
+        } else {
+            // иначе, простой шаблон пустого "задания"
+            template = `<label class="sheet__list_check">
                             <input class="sheet__list_input" type="checkbox">
                             <span class="sheet__list_box"></span>
                         </label>
                         <textarea placeholder="задание.." name="" rows="1"></textarea>`;
+        }
         const ul = document.getElementById('sheet-list');
         const li = document.createElement('li');
         li.classList.add('sheet__list_item');
@@ -152,6 +172,25 @@ class ToDo {
             app.database = JSON.parse(raw);
         }
     }
+
+    renderSheet(hash) {
+        const task = this.database[hash];
+        const _id = document.getElementById('sheet-bar-id');
+        const _namespace = document.getElementById('sheet-bar-name');
+        const _name = document.getElementById('sheet-header-name-input');
+        const _description = document.getElementById('sheet-header-disc-input');
+
+        _id.textContent = task.id;
+        _namespace.textContent = task.namespace;
+        _name.value = task.name;
+        _description.value = task.description;
+
+        for (const tasksCollection of task.tasks) {
+            const task = tasksCollection.task;
+            const completed = tasksCollection.completed;
+            this.createTask(task, completed);
+        }
+    }
 }
 
 // app initialisation
@@ -197,6 +236,7 @@ _sheetApply.addEventListener('click', () => {
 
 // создает новую запись
 _todoCreate.addEventListener('click', () => {
+    console.log('creative mode');
     app.clearForms();
     app.autosizeForms();
     _sheet.classList.add('sheet--on');
@@ -219,3 +259,19 @@ _sheet.addEventListener('click', (e) => {
         _sheet.classList.add('sheet--off');
     }
 })
+
+// изменение существующей записи
+document.addEventListener('click', (e) => {
+    const target = e.target;
+
+    // слушает только те элементы которые получили data-id т.е. только записи
+    if (target.hasAttribute('data-id')) {
+        // console.log('editing mode');
+        const hash = target.getAttribute('data-id');  
+        app.clearForms();
+        app.renderSheet(hash);
+        app.autosizeForms();
+        _sheet.classList.add('sheet--on');
+        _sheet.classList.remove('sheet--off');
+    }
+});
