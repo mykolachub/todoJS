@@ -87,6 +87,9 @@ class ToDo {
 
         _id.textContent = Object.keys(this.database).length + 1;
         _namespace.textContent = _name.value;
+
+        // обновляю localStorage
+        localStorage.setItem('todos', JSON.stringify(this.database));
     }
 
     createTask() {
@@ -141,10 +144,19 @@ class ToDo {
         const forms = document.querySelectorAll('textarea');
         autosize(forms);
     }
+
+    checkStorage() {
+        if (localStorage.getItem('todos') !== null) {
+            const raw = localStorage.getItem('todos');
+            app.database = JSON.parse(raw);
+        }
+    }
 }
 
 // app initialisation
 const app = new ToDo();
+
+app.checkStorage();
 app.renderList();
 
 // создают новую запись если еще их нет
