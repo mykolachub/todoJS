@@ -108,6 +108,10 @@
     color: var(--sheet-bar-delete);
 }
 
+.bar__delete--off {
+    display: none;
+}
+
 /* sheet__scrolable */
 
 .sheet__scrolable {
