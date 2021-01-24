@@ -8,6 +8,7 @@ const _sheetName = document.getElementById('sheet-header-name-input'); // off
 const _sheetNewTask = document.getElementById('sheet-header-new');
 const _sheetApply = document.getElementById('sheet-bar-apply');
 const _sheetClose = document.getElementById('sheet-bar-close');
+const _sheetDelete = document.getElementById('sheet-bar-delete');
 
 class ToDo {
     constructor() {
@@ -205,6 +206,13 @@ class ToDo {
         this.editorHash = editorHash;
     }
 
+    getMode() {
+        return {
+            mode: this.mode,
+            editorHash: this.editorHash
+        };
+    }
+
     openSheet() {
         _sheet.classList.add('sheet--on');
         _sheet.classList.remove('sheet--off');
@@ -213,6 +221,11 @@ class ToDo {
     closeSheet() {
         _sheet.classList.remove('sheet--on');
         _sheet.classList.add('sheet--off');
+    }
+
+    deleteSheet(hash) {
+        delete this.database[hash];
+        localStorage.setItem('todos', JSON.stringify(this.database));
     }
 }
 
@@ -249,8 +262,7 @@ _sheetApply.addEventListener('click', () => {
     if (isValidate) {
         app.updateData();
         app.renderList();
-        _sheet.classList.remove('sheet--on');
-        _sheet.classList.add('sheet--off');
+        app.closeSheet();
     } else {
         alert('Запись содержит пустые поля и/или не имеет заданий!');
     }
@@ -259,6 +271,7 @@ _sheetApply.addEventListener('click', () => {
 // создает новую запись
 _todoCreate.addEventListener('click', () => {
     app.setMode('creator');
+    _sheetDelete.classList.add('bar__delete--off');
     app.clearForms();
     app.autosizeForms();
     app.openSheet();
@@ -287,9 +300,17 @@ document.addEventListener('click', (e) => {
     if (target.hasAttribute('data-id')) {
         const hash = target.getAttribute('data-id');  
         app.setMode('editor', hash);
+        _sheetDelete.classList.remove('bar__delete--off');
         app.clearForms();
         app.renderSheet(hash);
         app.autosizeForms();
         app.openSheet();
     }
+});
+
+_sheetDelete.addEventListener('click', () => {
+    const hash = app.getMode().editorHash;
+    app.deleteSheet(hash);
+    app.closeSheet();
+    app.renderList();
 });
