@@ -14,6 +14,8 @@ class ToDo {
         this.database = {}; // база данны где хранятся дела
         this.todos = 0; // количество дел
         this.containsTasks = false; // есть ли дела в списке
+        this.mode = null; // creator or editor
+        this.editorHash = undefined; // хеш записи которую редактирую
     }
 
     renderList() {
@@ -60,7 +62,12 @@ class ToDo {
     }
 
     updateData() {
-        const hash = Date.now();
+        let hash;
+        if (this.editorHash !== undefined) {
+            hash = this.editorHash;
+        } else {
+            hash = Date.now();
+        }
         const _id = document.getElementById('sheet-bar-id');
         const _namespace = document.getElementById('sheet-bar-name');
         const _name = document.getElementById('sheet-header-name-input');
@@ -91,6 +98,7 @@ class ToDo {
 
         // обновляю localStorage
         localStorage.setItem('todos', JSON.stringify(this.database));
+        this.editorHash = undefined;
     }
 
     createTask(task, completed) {
@@ -191,6 +199,21 @@ class ToDo {
             this.createTask(task, completed);
         }
     }
+
+    setMode(mode, editorHash) {
+        this.mode = mode;
+        this.editorHash = editorHash;
+    }
+
+    openSheet() {
+        _sheet.classList.add('sheet--on');
+        _sheet.classList.remove('sheet--off');
+    }
+
+    closeSheet() {
+        _sheet.classList.remove('sheet--on');
+        _sheet.classList.add('sheet--off');
+    }
 }
 
 // app initialisation
@@ -201,8 +224,7 @@ app.renderList();
 
 // создают новую запись если еще их нет
 _notodoCreate.addEventListener('click', () => {
-    _sheet.classList.add('sheet--on');
-    _sheet.classList.remove('sheet--off');
+    app.openSheet();
     app.clearForms();
     app.autosizeForms();
 })
@@ -236,18 +258,16 @@ _sheetApply.addEventListener('click', () => {
 
 // создает новую запись
 _todoCreate.addEventListener('click', () => {
-    console.log('creative mode');
+    app.setMode('creator');
     app.clearForms();
     app.autosizeForms();
-    _sheet.classList.add('sheet--on');
-    _sheet.classList.remove('sheet--off');
+    app.openSheet();
 });
 
 // закрывает форму без изменений в базе при нажатии на кнопку "закрыть"
 _sheetClose.addEventListener('click', () => {
     app.clearForms();
-    _sheet.classList.remove('sheet--on');
-    _sheet.classList.add('sheet--off');
+    app.closeSheet();
 });
 
 // закрывает форму без изменений в базе при нажатии вне
@@ -255,8 +275,7 @@ _sheet.addEventListener('click', (e) => {
     const isOut = e.target.className === "sheet__wrapper";
     if (isOut) {
         app.clearForms();
-        _sheet.classList.remove('sheet--on');
-        _sheet.classList.add('sheet--off');
+        app.closeSheet();
     }
 })
 
@@ -266,12 +285,11 @@ document.addEventListener('click', (e) => {
 
     // слушает только те элементы которые получили data-id т.е. только записи
     if (target.hasAttribute('data-id')) {
-        // console.log('editing mode');
         const hash = target.getAttribute('data-id');  
+        app.setMode('editor', hash);
         app.clearForms();
         app.renderSheet(hash);
         app.autosizeForms();
-        _sheet.classList.add('sheet--on');
-        _sheet.classList.remove('sheet--off');
+        app.openSheet();
     }
 });
