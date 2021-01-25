@@ -1,14 +1,30 @@
-const _list = document.getElementById('list'); // on
-const _notodo = document.getElementById('notodo'); // on
-const _notodoCreate = document.getElementById('notodo-create'); // on
-const _todo = document.getElementById('todo'); // off
-const _todoCreate = document.getElementById('todo-create');
-const _sheet = document.getElementById('sheet'); // off
-const _sheetName = document.getElementById('sheet-header-name-input'); // off
-const _sheetNewTask = document.getElementById('sheet-header-new');
-const _sheetApply = document.getElementById('sheet-bar-apply');
-const _sheetClose = document.getElementById('sheet-bar-close');
-const _sheetDelete = document.getElementById('sheet-bar-delete');
+'use strict';
+
+function getElement(attr) {
+    if (attr.startsWith('.')) {
+        return document.querySelectorAll(attr);
+    }
+    return document.getElementById(attr);
+}
+
+const block = {
+    'list': getElement('list'),
+    'no-todo': getElement('notodo'),
+    'no-todo-create': getElement('notodo-create'),
+    'todo': getElement('todo'),
+    'todo-create': getElement('todo-create'),
+    'sheet': getElement('sheet'),
+    'sheet-bar-id': getElement('sheet-bar-id'),
+    'sheet-bar-namespace': getElement('sheet-bar-name'),
+    'sheet-bar-apply': getElement('sheet-bar-apply'),
+    'sheet-bar-close': getElement('sheet-bar-close'),
+    'sheet-bar-delete': getElement('sheet-bar-delete'),
+    'sheet-input-name': getElement('sheet-header-name-input'),
+    'sheet-input-description': getElement('sheet-header-disc-input'),
+    'sheet-task-create': getElement('sheet-header-new'),
+    'sheet-task-list': getElement('sheet-list'),
+}
+
 
 class ToDo {
     constructor() {
@@ -17,85 +33,77 @@ class ToDo {
         this.containsTasks = false; // есть ли дела в списке
         this.mode = null; // creator or editor
         this.editorHash = undefined; // хеш записи которую редактирую
+        this.allCount = 1;
     }
 
     renderList() {
         this.todos = Object.keys(this.database).length;
         if (this.todos !== 0) {
-            _notodo.classList.remove('notodos--on');
-            _todo.classList.add('todos--on');
+            block['no-todo'].classList.remove('notodos--on');
+            block['todo'].classList.add('todos--on');
 
             // удаляет старые записи. оставляет блок добавления записи
-            if (_todo.children.length) {
+            const length = block['todo'].children.length;
+            if (length) {
                 const toRemove = [];
-                for (const item of _todo.children) {
+                for (const item of block['todo'].children) {
                     const isTask = !item.classList.contains('todo__new');
                     if (isTask) toRemove.push(item);
                 }
-                toRemove.forEach(item => _todo.removeChild(item));
+                toRemove.forEach(item => block['todo'].removeChild(item));
             }    
 
             // перезаписывает записи в списке из базы
             for (const hash in this.database) {
-                const task = this.database[hash];
-                const list = _todo;
+                const todo = this.database[hash];
                 const item = document.createElement('div');
                 item.classList.add('todo__item');
                 item.setAttribute('data-id', hash);
                 item.innerHTML = `<div data-id="${hash}" class="todo__content">
                                     <div data-id="${hash}"class="todo__name">
-                                        <span data-id="${hash}">${task.name}</span>
+                                        <span data-id="${hash}">${todo.name}</span>
                                     </div>
                                     <div data-id="${hash}"class="todo__desc">
-                                        <span data-id="${hash}">${task.description}</span>
+                                        <span data-id="${hash}">${todo.description}</span>
                                     </div>
                                     <div data-id="${hash}"class="todo__count">
-                                        <span data-id="${hash}">${task.amount}</span>
+                                        <span data-id="${hash}">${todo.amount}</span>
                                     </div>
                                 </div>`;
 
-                list.insertBefore(item, _todoCreate);
+                block['todo'].insertBefore(item, block['todo-create']);
             }
         } else {
-            _notodo.classList.add('notodos--on');
-            _todo.classList.remove('todos--on');
+            block['no-todo'].classList.add('notodos--on');
+            block['todo'].classList.remove('todos--on');
         }
     }
 
     updateData() {
-        let hash;
-        if (this.editorHash !== undefined) {
-            hash = this.editorHash;
-        } else {
-            hash = Date.now();
-        }
-        const _id = document.getElementById('sheet-bar-id');
-        const _namespace = document.getElementById('sheet-bar-name');
-        const _name = document.getElementById('sheet-header-name-input');
-        const _description = document.getElementById('sheet-header-disc-input');
-        const _tasks = document.querySelectorAll('.sheet__list_item');
+        const hash = this.editorHash !== undefined ? this.editorHash: Date.now();
+        const tasks = document.querySelectorAll('.sheet__list_item');
 
         // создаю массив объектов, которые содержат текст и статус "дела"
         const tasksCollection = [];
-        _tasks.forEach(_task => {
+        tasks.forEach(item => {
             tasksCollection.push({
-                task: _task.lastChild.value,
-                completed: _task.firstChild.control.checked
+                task: item.lastChild.value,
+                completed: item.firstChild.control.checked
             });
         });
 
         // добавляю в базу новый объект с данными
         this.database[hash] = {
-            name: _name.value,
-            id: Object.keys(this.database).length + 1,
-            namespace: _name.value,
-            description: _description.value,
-            amount: _tasks.length,
-            tasks: tasksCollection
+            name: block['sheet-input-name'].value,
+            id: this.allCount,
+            namespace: block['sheet-input-name'].value,
+            description: block['sheet-input-description'].value,
+            amount: tasks.length,
+            tasks: tasksCollection,
         };
 
-        _id.textContent = Object.keys(this.database).length + 1;
-        _namespace.textContent = _name.value;
+        block['sheet-bar-id'].textContent = this.database[hash].id;
+        block['sheet-bar-namespace'].textContent = block['sheet-input-name'].value;
 
         // обновляю localStorage
         localStorage.setItem('todos', JSON.stringify(this.database));
@@ -104,7 +112,6 @@ class ToDo {
 
     createTask(task, completed) {
         let template;
-
         if (task) {
             // если переданы аргументы в функцию, "задания" создаются по определенному шаблону
             if (completed) {
@@ -128,12 +135,10 @@ class ToDo {
                         </label>
                         <textarea placeholder="задание.." name="" rows="1"></textarea>`;
         }
-        const ul = document.getElementById('sheet-list');
-        const li = document.createElement('li');
-        li.classList.add('sheet__list_item');
-        li.innerHTML = template;
-
-        ul.appendChild(li);
+        const item = document.createElement('li');
+        item.classList.add('sheet__list_item');
+        item.innerHTML = template;
+        block['sheet-task-list'].appendChild(item);
         this.containsTasks = true;
     }
 
@@ -148,24 +153,23 @@ class ToDo {
                 flags.push(isEmpty);
             });
             return !flags.includes(false);
-        } else {
-            return false;
         }
+        return false;
     }
 
     clearForms() {
-        const forms = document.querySelectorAll('textarea');
-        const sheetList = document.getElementById('sheet-list');
-        const _namespace = document.getElementById('sheet-bar-name');
-        _namespace.textContent = '';
-        forms.forEach(form => form.value = '');
-        if (sheetList.children.length) {
+        block['sheet-bar-namespace'].textContent = '';
+        document.querySelectorAll('textarea').forEach(form => form.value = '');
+
+        const list = block['sheet-task-list'];
+        const length = list.children.length; 
+        if (length) {
             const toRemove = [];
-            for (const task of sheetList.children) {
+            for (const task of list.children) {
                 toRemove.push(task);
             }
             toRemove.forEach(item => {
-                sheetList.removeChild(item);
+                list.removeChild(item);
             });
         }        
     }
@@ -178,25 +182,20 @@ class ToDo {
     checkStorage() {
         if (localStorage.getItem('todos') !== null) {
             const raw = localStorage.getItem('todos');
-            app.database = JSON.parse(raw);
+            this.database = JSON.parse(raw);
         }
     }
 
     renderSheet(hash) {
-        const task = this.database[hash];
-        const _id = document.getElementById('sheet-bar-id');
-        const _namespace = document.getElementById('sheet-bar-name');
-        const _name = document.getElementById('sheet-header-name-input');
-        const _description = document.getElementById('sheet-header-disc-input');
+        const todo = this.database[hash];
+        const {id, namespace, name, description, tasks} = todo;
+        block['sheet-bar-id'].textContent = id;
+        block['sheet-bar-namespace'].textContent = namespace;
+        block['sheet-input-name'].value = name;
+        block['sheet-input-description'].value = description;
 
-        _id.textContent = task.id;
-        _namespace.textContent = task.namespace;
-        _name.value = task.name;
-        _description.value = task.description;
-
-        for (const tasksCollection of task.tasks) {
-            const task = tasksCollection.task;
-            const completed = tasksCollection.completed;
+        for (const tasksCollection of tasks) {
+            const {task, completed} = tasksCollection;
             this.createTask(task, completed);
         }
     }
@@ -214,13 +213,13 @@ class ToDo {
     }
 
     openSheet() {
-        _sheet.classList.add('sheet--on');
-        _sheet.classList.remove('sheet--off');
+        block['sheet'].classList.add('sheet--on');
+        block['sheet'].classList.remove('sheet--off');
     }
 
     closeSheet() {
-        _sheet.classList.remove('sheet--on');
-        _sheet.classList.add('sheet--off');
+        block['sheet'].classList.remove('sheet--on');
+        block['sheet'].classList.add('sheet--off');
     }
 
     deleteSheet(hash) {
@@ -229,35 +228,37 @@ class ToDo {
     }
 }
 
-// app initialisation
-const app = new ToDo();
-
-app.checkStorage();
-app.renderList();
+// проект инициализируется только тогда DOM загрузился
+let app;
+document.addEventListener('DOMContentLoaded', () => {
+    app = new ToDo();
+    app.checkStorage();
+    app.renderList();
+});
 
 // создают новую запись если еще их нет
-_notodoCreate.addEventListener('click', () => {
+block['no-todo-create'].addEventListener('click', () => {
     app.openSheet();
     app.clearForms();
     app.autosizeForms();
 })
 
 // создает новое задание в записи
-_sheetNewTask.addEventListener('click', () => {
+block['sheet-task-create'].addEventListener('click', () => {
     app.createTask();
     app.autosizeForms();
 })
 
 // дублирует название записи для namespace
-_sheetName.addEventListener('input', () => {
-    const _namespace = document.getElementById('sheet-bar-name');
-    const value = _sheetName.value;
-    const validLength = 10;
-    if (value.length < validLength) _namespace.textContent = _sheetName.value;   
+block['sheet-input-name'].addEventListener('input', () => {
+    const value = block['sheet-input-name'].value;
+    const validNamespaceLength = 20;
+    if (value.length < validNamespaceLength) 
+        block['sheet-bar-namespace'].textContent = block['sheet-input-name'].value;   
 })
 
 // применяет изменения и сохраняет запись
-_sheetApply.addEventListener('click', () => {
+block['sheet-bar-apply'].addEventListener('click', () => {
     const isValidate = app.validateForms();
     if (isValidate) {
         app.updateData();
@@ -269,22 +270,22 @@ _sheetApply.addEventListener('click', () => {
 });
 
 // создает новую запись
-_todoCreate.addEventListener('click', () => {
+block['todo-create'].addEventListener('click', () => {
+    block['sheet-bar-delete'].classList.add('bar__delete--off');
     app.setMode('creator');
-    _sheetDelete.classList.add('bar__delete--off');
     app.clearForms();
     app.autosizeForms();
     app.openSheet();
 });
 
 // закрывает форму без изменений в базе при нажатии на кнопку "закрыть"
-_sheetClose.addEventListener('click', () => {
+block['sheet-bar-close'].addEventListener('click', () => {
     app.clearForms();
     app.closeSheet();
 });
 
 // закрывает форму без изменений в базе при нажатии вне
-_sheet.addEventListener('click', (e) => {
+block['sheet'].addEventListener('click', (e) => {
     const isOut = e.target.className === "sheet__wrapper";
     if (isOut) {
         app.clearForms();
@@ -298,9 +299,9 @@ document.addEventListener('click', (e) => {
 
     // слушает только те элементы которые получили data-id т.е. только записи
     if (target.hasAttribute('data-id')) {
+        block['sheet-bar-delete'].classList.remove('bar__delete--off');
         const hash = target.getAttribute('data-id');  
         app.setMode('editor', hash);
-        _sheetDelete.classList.remove('bar__delete--off');
         app.clearForms();
         app.renderSheet(hash);
         app.autosizeForms();
@@ -308,7 +309,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
-_sheetDelete.addEventListener('click', () => {
+block['sheet-bar-delete'].addEventListener('click', () => {
     const hash = app.getMode().editorHash;
     app.deleteSheet(hash);
     app.closeSheet();
