@@ -23,8 +23,10 @@ const block = {
     'sheet-input-description': getElement('sheet-header-disc-input'),
     'sheet-task-create': getElement('sheet-header-new'),
     'sheet-task-list': getElement('sheet-list'),
+    'modal-delete': getElement('modal-delete'),
+    'modal-delete-accept': getElement('modal-delete-accept'),
+    'modal-delete-decline': getElement('modal-delete-decline'),
 }
-
 
 class ToDo {
     constructor() {
@@ -226,18 +228,28 @@ class ToDo {
         delete this.database[hash];
         localStorage.setItem('todos', JSON.stringify(this.database));
     }
+
+    openModal() {
+        block['modal-delete'].classList.add('modal--on');
+        block['modal-delete'].classList.remove('modal--off');
+    }
+
+    closeModal() {
+        block['modal-delete'].classList.remove('modal--on');
+        block['modal-delete'].classList.add('modal--off');
+    }
 }
 
+const app = new ToDo();
 // проект инициализируется только тогда DOM загрузился
-let app;
 document.addEventListener('DOMContentLoaded', () => {
-    app = new ToDo();
     app.checkStorage();
     app.renderList();
 });
 
 // создают новую запись если еще их нет
 block['no-todo-create'].addEventListener('click', () => {
+    block['sheet-bar-delete'].classList.add('bar__delete--off');
     app.openSheet();
     app.clearForms();
     app.autosizeForms();
@@ -309,9 +321,20 @@ document.addEventListener('click', (e) => {
     }
 });
 
+// кнопка удаления записи
 block['sheet-bar-delete'].addEventListener('click', () => {
-    const hash = app.getMode().editorHash;
-    app.deleteSheet(hash);
-    app.closeSheet();
-    app.renderList();
+    app.openModal();
+    block['modal-delete-decline'].addEventListener('click', () => {
+        app.closeModal();
+        return;
+    });
+    block['modal-delete-accept'].addEventListener('click', () => {
+        const hash = app.getMode().editorHash;
+        app.closeModal();
+        app.closeSheet();
+        app.deleteSheet(hash);
+        app.renderList();
+        return;
+    });
+    
 });
