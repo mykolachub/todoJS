@@ -13,25 +13,24 @@
 
         <!-- HEADER -->
         <header class="header">
-            <div class="header__darkmode header__item">
-                <button id="dark_mode" class="darkmode__button">Dark Mode: Off</button>
-            </div>
-            <div class="header__logo header__item">
-                <div class="logo">
-                    <div class="logo__content">
-                        <span class="logo__text">TodoJS</span>
-                        <span class="logo__beta">Beta</span>
-                    </div>
-                    <div class="logo__subheading">
-                        <span>Simple JavaScript ToDo</span>
-                    </div>
+            <nav class="header__navigation">
+                <div data-value="Записи" id="header-todos" class="header__todos header__item header__item--on">
+                    <img src="./src/icons/todo.png" alt="todos" class="header__icon">
+                    <span class="header__message">Записи</span>
                 </div>
-            </div>
-            <div class="header__count header__item">
-                <div class="count">
-                    <span id="count" class="count__item">Count: 0</span>
+                <div data-value="Архив" id="header-archive" class="header__archive header__item">
+                    <img src="./src/icons/bin.png" alt="archive" class="header__icon">
+                    <span class="header__message">Архив</span>
                 </div>
-            </div>
+                <div data-value="Поиск" id="header-search" class="header__search header__item">
+                    <img src="./src/icons/search.png" alt="search" class="header__icon">
+                    <span class="header__message">Поиск</span>
+                </div>
+                <div data-value="Гамма" id="header-mode" class="header__mode header__item">
+                    <img id="header-mode-icon" src="./src/icons/lightmode.png" alt="color mode" class="header__icon">
+                    <span class="header__message">Гамма</span>
+                </div>
+            </nav>
         </header>
 
         <!-- MAIN -->
@@ -49,6 +48,7 @@
                     </div>
                 </div>
             </div>
+            <!-- <div id="search" class="search"></div> -->
             <div id="todo" class="todos">
                 <div id="todo-create" class="todo__new todo__item">
                     <div class="todo__icon">
@@ -109,5 +109,6 @@
     </div>
     
     <script src="./src/autosize.min.js"></script>
-<script src="dist/main.0320c8b98507a67d4603.js"></script></body>
+<script src="dist/main.0320c8b98507a67d4603.js"></script>
+</body>
 </html>
