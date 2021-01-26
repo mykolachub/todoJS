@@ -21,7 +21,7 @@ const block = {
     'sheet-bar-delete': getElement('sheet-bar-delete'),
     'sheet-input-name': getElement('sheet-header-name-input'),
     'sheet-input-description': getElement('sheet-header-disc-input'),
-    'sheet-task-create': getElement('sheet-header-new'),
+    'sheet-task-create': getElement('sheet__new_btn'),
     'sheet-task-list': getElement('sheet-list'),
     'modal-delete': getElement('modal-delete'),
     'modal-delete-accept': getElement('modal-delete-accept'),
@@ -118,13 +118,13 @@ class ToDo {
             // если переданы аргументы в функцию, "задания" создаются по определенному шаблону
             if (completed) {
                 template = `<label class="sheet__list_check">
-                                <input class="sheet__list_input" checked type="checkbox">
+                                <input hidden class="sheet__list_input" checked type="checkbox">
                                 <span class="sheet__list_box"></span>
                             </label>
                             <textarea placeholder="задание.." name="" rows="1">${task}</textarea>`;    
             } else {
                 template = `<label class="sheet__list_check">
-                                <input class="sheet__list_input" type="checkbox">
+                                <input hidden class="sheet__list_input" type="checkbox">
                                 <span class="sheet__list_box"></span>
                             </label>
                             <textarea placeholder="задание.." name="" rows="1">${task}</textarea>`;    
@@ -132,7 +132,7 @@ class ToDo {
         } else {
             // иначе, простой шаблон пустого "задания"
             template = `<label class="sheet__list_check">
-                            <input class="sheet__list_input" type="checkbox">
+                            <input hidden class="sheet__list_input" type="checkbox">
                             <span class="sheet__list_box"></span>
                         </label>
                         <textarea placeholder="задание.." name="" rows="1"></textarea>`;
