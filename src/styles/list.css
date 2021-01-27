@@ -5,7 +5,6 @@
     min-height: calc(100% - 120px);
     height: 100%;
     padding: 0 3rem;
-    padding-top: 16rem;
     position: relative;
 }
 
@@ -87,14 +86,6 @@
     height: auto;
     display: none;
     flex-wrap: wrap;
-    gap: 3rem;
-}
-
-@supports not (gap: 3rem) {
-    .todos {
-        margin-right: 3rem;
-        margin-bottom: 3rem;
-    }
 }
 
 .todos--on {
@@ -109,10 +100,29 @@
     padding: 2rem;
     cursor: pointer;
     transition: all 250ms ease;
+    margin-bottom: 3rem;
+    margin-right: 3rem;
+    word-break: break-all;
 }
 
 .todo__item:hover {
     border-color: var(--list-todo-bg-hover);
+}
+
+@media all and (max-width: 510px) {
+    .todo__item {
+        width: 100%;
+        margin-right: 0;
+        height: auto;
+    }
+
+    .todo__count {
+        position: inherit !important;
+    }
+
+    .todo__desc {
+        margin-bottom: 1rem;
+    }
 }
 
 .todo__content {
