@@ -14,8 +14,6 @@ const block = {
     'todo': getElement('todo'),
     'todo-create': getElement('todo-create'),
     'sheet': getElement('sheet'),
-    'sheet-bar-id': getElement('sheet-bar-id'),
-    'sheet-bar-namespace': getElement('sheet-bar-name'),
     'sheet-bar-apply': getElement('sheet-bar-apply'),
     'sheet-bar-close': getElement('sheet-bar-close'),
     'sheet-bar-delete': getElement('sheet-bar-delete'),
@@ -104,9 +102,6 @@ class ToDo {
             tasks: tasksCollection,
         };
 
-        block['sheet-bar-id'].textContent = this.database[hash].id;
-        block['sheet-bar-namespace'].textContent = block['sheet-input-name'].value;
-
         // обновляю localStorage
         localStorage.setItem('todos', JSON.stringify(this.database));
         this.editorHash = undefined;
@@ -160,7 +155,6 @@ class ToDo {
     }
 
     clearForms() {
-        block['sheet-bar-namespace'].textContent = '';
         document.querySelectorAll('textarea').forEach(form => form.value = '');
 
         const list = block['sheet-task-list'];
@@ -190,9 +184,7 @@ class ToDo {
 
     renderSheet(hash) {
         const todo = this.database[hash];
-        const {id, namespace, name, description, tasks} = todo;
-        block['sheet-bar-id'].textContent = id;
-        block['sheet-bar-namespace'].textContent = namespace;
+        const {name, description, tasks} = todo;
         block['sheet-input-name'].value = name;
         block['sheet-input-description'].value = description;
 
@@ -259,14 +251,6 @@ block['no-todo-create'].addEventListener('click', () => {
 block['sheet-task-create'].addEventListener('click', () => {
     app.createTask();
     app.autosizeForms();
-})
-
-// дублирует название записи для namespace
-block['sheet-input-name'].addEventListener('input', () => {
-    const value = block['sheet-input-name'].value;
-    const validNamespaceLength = 20;
-    if (value.length < validNamespaceLength) 
-        block['sheet-bar-namespace'].textContent = block['sheet-input-name'].value;   
 })
 
 // применяет изменения и сохраняет запись
