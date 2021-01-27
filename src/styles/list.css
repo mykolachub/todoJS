@@ -90,6 +90,13 @@
     gap: 3rem;
 }
 
+@supports not (gap: 3rem) {
+    .todos {
+        margin-right: 3rem;
+        margin-bottom: 3rem;
+    }
+}
+
 .todos--on {
     display: flex;
 }
