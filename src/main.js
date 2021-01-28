@@ -21,9 +21,9 @@ const block = {
     'sheet-input-description': getElement('sheet-header-disc-input'),
     'sheet-task-create': getElement('sheet__new_btn'),
     'sheet-task-list': getElement('sheet-list'),
-    'modal-delete': getElement('modal-delete'),
-    'modal-delete-accept': getElement('modal-delete-accept'),
-    'modal-delete-decline': getElement('modal-delete-decline'),
+    'modal': getElement('modal'),
+    // 'modal-accept': getElement('modal-accept'),
+    // 'modal-decline': getElement('modal-decline'),
 }
 
 class ToDo {
@@ -221,14 +221,55 @@ class ToDo {
         localStorage.setItem('todos', JSON.stringify(this.database));
     }
 
-    openModal() {
-        block['modal-delete'].classList.add('modal--on');
-        block['modal-delete'].classList.remove('modal--off');
+    openModal(mode) {
+        block['modal'].classList.remove('modal--off');
+        block['modal'].classList.add('modal--on');
+
+        const options = {
+            'delete': {
+                icon: './src/icons/warning.png',
+                label: 'Внимание!',
+                message: 'Вы точно хотите удалить эту запись? Восстановить данные будет невозможно.',
+                accept: 'Удалить',
+                decline: 'Отменить',
+                color: ' rgba(255, 69, 58, 1)',
+            },
+            'unfinished': {
+                icon: './src/icons/clue.png',
+                label: 'Подсказка',
+                message: 'Некоторые поля записи пустые. Для продолжения необходимо заполнить их всех.',
+                accept: 'Хорошо',
+                decline: 'Закрыть',
+                color: 'rgba(48, 209, 88, 1)',
+            }
+        }
+        const template = `  <div class="modal__warning modal__item">
+                                <img class="modal__icon" src="${options[mode].icon}" alt="warning">
+                                <span>${options[mode].label}</span>
+                            </div>
+                            <div class="modal__message modal__item"><span>${options[mode].message}</span></div>
+                            <div class="modal__buttons modal__item">
+                                <div id="modal-accept" class="modal__accept">
+                                    <span style="color:${options[mode].color};">${options[mode].accept}</span>
+                                </div>
+                                <div id="modal-decline" class="modal__decline">
+                                    <span>${options[mode].decline}</span>
+                                </div>
+                            </div>`;
+        const modalContent = document.createElement('div');
+        modalContent.classList.add('modal__content');
+        modalContent.innerHTML = template;
+        block['modal'].appendChild(modalContent);
+        return {
+            'accept': getElement('modal-accept'),
+            'decline': getElement('modal-decline'),
+        };
     }
 
     closeModal() {
-        block['modal-delete'].classList.remove('modal--on');
-        block['modal-delete'].classList.add('modal--off');
+        block['modal'].classList.add('modal--off');
+        block['modal'].classList.remove('modal--on');
+        block['modal'].innerHTML = '';
     }
 }
 
@@ -261,7 +302,16 @@ block['sheet-bar-apply'].addEventListener('click', () => {
         app.renderList();
         app.closeSheet();
     } else {
-        alert('Запись содержит пустые поля и/или не имеет заданий!');
+        const mode = 'unfinished';
+        const respond = app.openModal(mode);
+        respond['decline'].addEventListener('click', () => {
+            app.closeModal();
+            return;
+        });
+        respond['accept'].addEventListener('click', () => {
+            app.closeModal();
+            return;
+        });
     }
 });
 
@@ -307,12 +357,13 @@ document.addEventListener('click', (e) => {
 
 // кнопка удаления записи
 block['sheet-bar-delete'].addEventListener('click', () => {
-    app.openModal();
-    block['modal-delete-decline'].addEventListener('click', () => {
+    const mode = 'delete';
+    const respond = app.openModal(mode);
+    respond['decline'].addEventListener('click', () => {
         app.closeModal();
         return;
     });
-    block['modal-delete-accept'].addEventListener('click', () => {
+    respond['accept'].addEventListener('click', () => {
         const hash = app.getMode().editorHash;
         app.closeModal();
         app.closeSheet();
@@ -320,5 +371,4 @@ block['sheet-bar-delete'].addEventListener('click', () => {
         app.renderList();
         return;
     });
-    
 });
