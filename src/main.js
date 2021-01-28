@@ -58,12 +58,12 @@ class ToDo {
             function nameOfAmount(number) {
                 const stringed = number.toString();
                 const lastDigit = parseInt(stringed[stringed.length - 1]);
-                if (lastDigit === 1) {
-                    return `${number} дело`;
+                if ((number >= 5 && number <= 20) || (lastDigit >= 5 && lastDigit <= 9 || lastDigit === 0)) {
+                    return `${number} дел`;
                 } else if (lastDigit >= 2 && lastDigit <= 4) {
                     return `${number} дела`;
-                } else if (lastDigit >= 5 && lastDigit <= 9 || lastDigit === 0) {
-                    return `${number} дел`;
+                } else if (lastDigit === 1 && (number + 9) %10 === 0) {
+                    return `${number} дело`;
                 }
             }
 
