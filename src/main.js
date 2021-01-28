@@ -22,8 +22,7 @@ const block = {
     'sheet-task-create': getElement('sheet__new_btn'),
     'sheet-task-list': getElement('sheet-list'),
     'modal': getElement('modal'),
-    // 'modal-accept': getElement('modal-accept'),
-    // 'modal-decline': getElement('modal-decline'),
+    'count': getElement('count'),
 }
 
 class ToDo {
@@ -38,6 +37,8 @@ class ToDo {
 
     renderList() {
         this.todos = Object.keys(this.database).length;
+        block['count'].textContent = '';
+        block['count'].textContent = `Всего записей: ${this.todos}`;
         if (this.todos !== 0) {
             block['no-todo'].classList.remove('notodos--on');
             block['todo'].classList.add('todos--on');
@@ -237,7 +238,7 @@ class ToDo {
             'unfinished': {
                 icon: './src/icons/clue.png',
                 label: 'Подсказка',
-                message: 'Некоторые поля записи пустые. Для продолжения необходимо заполнить их всех.',
+                message: 'Некоторые поля записи пустые. Для продолжения необходимо заполнить их все.',
                 accept: 'Хорошо',
                 decline: 'Закрыть',
                 color: 'rgba(48, 209, 88, 1)',
