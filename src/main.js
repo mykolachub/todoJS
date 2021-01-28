@@ -54,6 +54,19 @@ class ToDo {
                 toRemove.forEach(item => block['todo'].removeChild(item));
             }    
 
+            // добавляет текстовое уточнение для количества дел
+            function nameOfAmount(number) {
+                const stringed = number.toString();
+                const lastDigit = parseInt(stringed[stringed.length - 1]);
+                if (lastDigit === 1) {
+                    return `${number} дело`;
+                } else if (lastDigit >= 2 && lastDigit <= 4) {
+                    return `${number} дела`;
+                } else if (lastDigit >= 5 && lastDigit <= 9 || lastDigit === 0) {
+                    return `${number} дел`;
+                }
+            }
+
             // перезаписывает записи в списке из базы
             for (const hash in this.database) {
                 const todo = this.database[hash];
@@ -68,7 +81,7 @@ class ToDo {
                                         <span data-id="${hash}">${todo.description}</span>
                                     </div>
                                     <div data-id="${hash}"class="todo__count">
-                                        <span data-id="${hash}">${todo.amount}</span>
+                                        <span data-id="${hash}">${nameOfAmount(todo.amount)}</span>
                                     </div>
                                 </div>`;
 
