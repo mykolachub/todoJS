@@ -20,6 +20,23 @@
     font-weight: 700;
 }
 
+/* count */
+
+.count {
+    width: 100%;
+    height: auto;
+    font-size: 1.4rem;
+    color: rgba(205, 204, 204, 1);
+    margin-bottom: 1rem;
+}
+
+@media all and (max-width: 510px) {
+    .count {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+}
+
 /* no todo */
 
 .notodos {
@@ -140,22 +157,6 @@
     border-color: var(--list-todo-bg-hover);
 }
 
-@media all and (max-width: 510px) {
-    .todo__item {
-        width: 100%;
-        margin-right: 0;
-        height: auto;
-    }
-
-    .todo__count {
-        position: inherit !important;
-    }
-
-    .todo__desc {
-        margin-bottom: 1rem;
-    }
-}
-
 .todo__content {
     width: 100%;
     height: 100%;
@@ -166,6 +167,7 @@
     font-size: 2.8rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
+    color: rgb(41, 41, 38);
 }
 
 .todo__desc {
@@ -222,4 +224,27 @@
 .todo__icon_hor {
     width: 100%;
     height: 0.1rem;
+}
+
+@media all and (max-width: 510px) {
+    .todo__item {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        height: auto;
+    }
+
+    .todo__name {
+        font-size: 2.4rem;
+        margin-bottom: 1rem;
+    }
+
+    .todo__count {
+        position: inherit !important;
+    }
+
+    .todo__desc {
+        margin-bottom: 1rem;
+    }
 }
