@@ -268,8 +268,8 @@ class ToDo {
             'delete': {
                 icon: './src/icons/warning.png',
                 label: 'Внимание!',
-                message: 'Вы точно хотите удалить эту запись? Восстановить данные будет невозможно.',
-                accept: 'Удалить',
+                message: 'Вы точно хотите архивировать эту запись? Ее можно будет восстановить или удалить',
+                accept: 'В Архив',
                 decline: 'Отменить',
                 color: ' rgba(255, 69, 58, 1)',
             },
@@ -290,7 +290,8 @@ class ToDo {
                 color: 'rgba(255, 159, 10, 1)',
             }
         }
-        const template = `  <div class="modal__warning modal__item">
+        const template = `  <span id="modal-close" class="modal__close"></span>
+                            <div class="modal__warning modal__item">
                                 <img class="modal__icon" src="${options[mode].icon}" alt="warning">
                                 <span>${options[mode].label}</span>
                             </div>
@@ -310,6 +311,7 @@ class ToDo {
         return {
             'accept': getElement('modal-accept'),
             'decline': getElement('modal-decline'),
+            'close': getElement('modal-close'),
         };
     }
 
@@ -356,6 +358,10 @@ block['sheet-bar-apply'].addEventListener('click', () => {
             return;
         });
         respond['accept'].addEventListener('click', () => {
+            app.closeModal();
+            return;
+        });
+        respond['close'].addEventListener('click', () => {
             app.closeModal();
             return;
         });
@@ -419,6 +425,10 @@ document.addEventListener('click', (e) => {
                 app.renderList('archive');
                 return;
             });
+            respond['close'].addEventListener('click', () => {
+                app.closeModal();
+                return;
+            });
         } else {
             // запись не в архиве - можно редактировать
             app.setMode('editor', hash);
@@ -446,6 +456,10 @@ block['sheet-bar-delete'].addEventListener('click', () => {
         app.renderList('todos');
         return;
     });
+    respond['close'].addEventListener('click', () => {
+        app.closeModal();
+        return;
+    });
 });
 
 block['header-archive'].addEventListener('click', () => {
@@ -454,9 +468,9 @@ block['header-archive'].addEventListener('click', () => {
     if (localStorage.getItem('archive') !== null) {
         const raw = localStorage.getItem('archive');
         app.archive = JSON.parse(raw);
-        app.renderList('archive');
-        return;
     }
+    app.renderList('archive');
+    return; 
 });
 
 block['header-todos'].addEventListener('click', () => {
