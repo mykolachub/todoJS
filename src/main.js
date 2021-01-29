@@ -8,6 +8,10 @@ function getElement(attr) {
 }
 
 const block = {
+    'header-todos': getElement('header-todos'),
+    'header-archive': getElement('header-archive'),
+    'header-search': getElement('header-search'),
+    'header-mode': getElement('header-mode'),
     'list': getElement('list'),
     'no-todo': getElement('notodo'),
     'no-todo-create': getElement('notodo-create'),
@@ -28,6 +32,7 @@ const block = {
 class ToDo {
     constructor() {
         this.database = {}; // база данны где хранятся дела
+        this.archive = {}; // архив удаленных записей
         this.todos = 0; // количество дел
         this.containsTasks = false; // есть ли дела в списке
         this.mode = null; // creator or editor
@@ -35,10 +40,25 @@ class ToDo {
         this.allCount = 1;
     }
 
-    renderList() {
-        this.todos = Object.keys(this.database).length;
-        block['count'].textContent = '';
-        block['count'].textContent = `Всего записей: ${this.todos}`;
+    renderList(mode) {
+        const options = {
+            'todos': {
+                base: this.database,
+                countName: 'Всего записей:',
+            },
+            'archive': { 
+                base: this.archive,
+                countName: 'Записей в архиве:',
+            },
+        };
+
+        // убрираю возможность добавлять новую запись в поле 'архив'
+        mode === 'archive' ? block['todo-create'].style.display = 'none' : block['todo-create'].style.display = 'flex';
+
+        // текущая база данных для рендера
+        const data = options[mode].base;
+        this.todos = Object.keys(data).length;
+        block['count'].textContent = `${options[mode].countName} ${this.todos}`;
         if (this.todos !== 0) {
             block['no-todo'].classList.remove('notodos--on');
             block['todo'].classList.add('todos--on');
@@ -68,8 +88,8 @@ class ToDo {
             }
 
             // перезаписывает записи в списке из базы
-            for (const hash in this.database) {
-                const todo = this.database[hash];
+            for (const hash in data) {
+                const todo = data[hash];
                 const item = document.createElement('div');
                 item.classList.add('todo__item');
                 item.setAttribute('data-id', hash);
@@ -88,7 +108,7 @@ class ToDo {
                 block['todo'].insertBefore(item, block['todo-create']);
             }
         } else {
-            block['no-todo'].classList.add('notodos--on');
+            mode === 'archive' ? block['no-todo'].classList.remove('notodos--on') : block['no-todo'].classList.add('notodos--on');
             block['todo'].classList.remove('todos--on');
         }
     }
@@ -109,11 +129,10 @@ class ToDo {
         // добавляю в базу новый объект с данными
         this.database[hash] = {
             name: block['sheet-input-name'].value,
-            id: this.allCount,
-            namespace: block['sheet-input-name'].value,
             description: block['sheet-input-description'].value,
             amount: tasks.length,
             tasks: tasksCollection,
+            archived: false,
         };
 
         // обновляю localStorage
@@ -230,7 +249,13 @@ class ToDo {
         block['sheet'].classList.add('sheet--off');
     }
 
-    deleteSheet(hash) {
+    archiveSheet(hash) {
+        // заношу запись в архив
+        this.archive[hash] = this.database[hash];
+        this.archive[hash].archived = true;
+        localStorage.setItem('archive', JSON.stringify(this.archive));
+
+        // удаляю из главной базы
         delete this.database[hash];
         localStorage.setItem('todos', JSON.stringify(this.database));
     }
@@ -255,6 +280,14 @@ class ToDo {
                 accept: 'Хорошо',
                 decline: 'Закрыть',
                 color: 'rgba(48, 209, 88, 1)',
+            },
+            'archived': {
+                icon: './src/icons/archive.png',
+                label: 'Архив',
+                message: 'Хотите восстановить запись или удалить ее навсегда?',
+                accept: 'Восстановить',
+                decline: 'Удалить',
+                color: 'rgba(255, 159, 10, 1)',
             }
         }
         const template = `  <div class="modal__warning modal__item">
@@ -291,7 +324,7 @@ const app = new ToDo();
 // проект инициализируется только тогда DOM загрузился
 document.addEventListener('DOMContentLoaded', () => {
     app.checkStorage();
-    app.renderList();
+    app.renderList('todos');
 });
 
 // создают новую запись если еще их нет
@@ -313,7 +346,7 @@ block['sheet-bar-apply'].addEventListener('click', () => {
     const isValidate = app.validateForms();
     if (isValidate) {
         app.updateData();
-        app.renderList();
+        app.renderList('todos');
         app.closeSheet();
     } else {
         const mode = 'unfinished';
@@ -360,12 +393,40 @@ document.addEventListener('click', (e) => {
     // слушает только те элементы которые получили data-id т.е. только записи
     if (target.hasAttribute('data-id')) {
         block['sheet-bar-delete'].classList.remove('bar__delete--off');
-        const hash = target.getAttribute('data-id');  
-        app.setMode('editor', hash);
-        app.clearForms();
-        app.renderSheet(hash);
-        app.autosizeForms();
-        app.openSheet();
+        const hash = target.getAttribute('data-id'); 
+
+        // проверка: если ли выбранная запись в архиве
+        if (app.database[hash] === undefined && app.archive[hash].archived) {
+            // запись в архиве - можно восстановить или удалить
+            const mode = 'archived';
+            const respond = app.openModal(mode);
+            respond['accept'].addEventListener('click', () => {
+                // восстановление записи из архива
+                app.updateData();
+                app.closeModal();
+                delete app.archive[hash];
+                localStorage.setItem('archive', JSON.stringify(app.archive));
+                app.renderList('todos');
+                block['header-todos'].classList.add('header__item--on');
+                block['header-archive'].classList.remove('header__item--on');
+                return;
+            });
+            respond['decline'].addEventListener('click', () => {
+                // удаление записи из архива навсегда
+                app.closeModal();
+                delete app.archive[hash];
+                localStorage.setItem('archive', JSON.stringify(app.archive));
+                app.renderList('archive');
+                return;
+            });
+        } else {
+            // запись не в архиве - можно редактировать
+            app.setMode('editor', hash);
+            app.clearForms();
+            app.renderSheet(hash);
+            app.autosizeForms();
+            app.openSheet();
+        }
     }
 });
 
@@ -381,8 +442,25 @@ block['sheet-bar-delete'].addEventListener('click', () => {
         const hash = app.getMode().editorHash;
         app.closeModal();
         app.closeSheet();
-        app.deleteSheet(hash);
-        app.renderList();
+        app.archiveSheet(hash);
+        app.renderList('todos');
         return;
     });
+});
+
+block['header-archive'].addEventListener('click', () => {
+    block['header-todos'].classList.remove('header__item--on');
+    block['header-archive'].classList.add('header__item--on');
+    if (localStorage.getItem('archive') !== null) {
+        const raw = localStorage.getItem('archive');
+        app.archive = JSON.parse(raw);
+        app.renderList('archive');
+        return;
+    }
+});
+
+block['header-todos'].addEventListener('click', () => {
+    block['header-todos'].classList.add('header__item--on');
+    block['header-archive'].classList.remove('header__item--on');
+    app.renderList('todos');
 });
