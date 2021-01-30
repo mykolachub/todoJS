@@ -1,6 +1,6 @@
 'use strict';
 
-const staticCasheName = 'static-v1';
+const staticCasheName = 'static-v1.1.02';
 
 const staticAssets = [
     './',
