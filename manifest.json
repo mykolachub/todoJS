@@ -2,9 +2,8 @@
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
     "display": "standalone",
-    "scope": "",
     "start_url": ".",
-    "app_name": "Notes",
+    "name": "Notes",
     "short_name": "Notes",
     "orientation": "portrait",
     "description": "Simple JavaScript PWA Notes",
@@ -28,6 +27,12 @@
             "src": "src/icons/logo/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
+        },
+        {
+            "src": "src/icons/logo/maskable_icon_x1.png",
+            "sizes": "196x196",
+            "type": "image/png",
+            "purpose": "any maskable"
         }
     ]
 }
